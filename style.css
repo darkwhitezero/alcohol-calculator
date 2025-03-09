@@ -1,74 +1,83 @@
-body{
+body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 18px;
-    background-color:rgb(232, 240, 239)
-}
-h1{
-    color:rgb(18, 109, 184)
-}
-#gender{
-    font-size: 24px;
-}
-form{
-    background-color: white;
+    font-size: 22px;
+    background-color: rgb(232, 240, 239);
     text-align: center;
-    max-width: 500px;
+}
+
+h1 {
+    color: rgb(20, 111, 185);
+}
+
+form {
+    background-color: white;
+    max-width: 550px;
     margin: auto;
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 5px 5px 15px hsla(0, 0%, 0%, 0.4);
-    display: flexbox;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    align-items: center;
 }
-#percentageBox{
-    width: 20%;
+
+input[type="number"] {
+    width: 100px;
     text-align: center;
-    font-size: 30px;
-    border: 2px solid hsla(0, 0%, 0%, 0.651);
-    border-radius: 5px;
+    font-size: 16px;
+    padding: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.65);
+    border-radius: 6px;
+    margin: 5px;
 }
-#mlBox{
-    width: 20%;
-    text-align: center;
-    font-size: 30px;
-    border: 2px solid hsla(0, 0%, 0%, 0.651);
-    border-radius: 5px;
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
 }
-#heightBox{
-    width: 20%;
-    text-align: center;
-    font-size: 30px;
-    border: 2px solid hsla(0, 0%, 0%, 0.651);
-    border-radius: 5px;
-}
-#weightBox{
-    width: 20%;
-    text-align: center;
-    font-size: 30px;
-    border: 2px solid hsla(0, 0%, 0%, 0.651);
-    border-radius: 5px;
-}
-label{
-    font-size: 22px;
-    font-style:italic;
-    margin-left: 5px;
-}
-button{
+
+button {
     margin-top: 15px;
-    background-color:hsl(120, 25%, 65%);
+    background-color: hsl(120, 35%, 66%);
     color: black;
-    font-size: 26px;
+    font-size: 20px;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
 }
-button:hover{
-    background-color: hsl(120, 25%, 50%);
+
+button:hover {
+    background-color: hsl(120, 35%, 70%);
 }
-button:active{
-    background-color: hsl(120, 25%, 60%);
+
+button:active {
+    background-color: hsl(120, 35%, 80%);
 }
-#result{
-    font-size: 36px;
+
+#result {
+    font-size: 22px;
     font-weight: bold;
+    margin-top: 15px;
+}
+
+.drink {
+    background: #f9f9f9;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.drink input {
+    margin: 5px;
+}
+
+.drink button {
+    background-color: rgb(207, 62, 62);
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-left: 10px;
 }

@@ -9,30 +9,26 @@
 <body>
     <form>
         <h1>Калькулятор алкоголя</h1>
-        <p1>Напиток 1:</p1>
-        <input type="number" id="percentageBox" value="0">
-        <p2>%</p2>
-        <input type="number" id="mlBox" value="0">
-        <p3>мл.</p3><br><br>
-        <p3>Рост:</p3>
-        <input type="number" id="heightBox" value="170">
-        <p4>см</p4><br><br>
-        <p3>Масса тела:</p3>
-        <input type="number" id="weightBox" value="60">
-        <p5>кг</p5><br><br>
-        <p6 id="gender">Ваш пол:</p6><br>
-        <input type="radio" id="male" name="gender">
-        <label for="maleGender">мужской</label><br>
-        <input type="radio" id="female" name="gender">
-        <label for="femaleGender">женский</label><br><br>
-        <p6>Наполненность желудка:</p6>
-        <input type="radio" id="emptyStomach" name="stomach">
-        <p6 id="fullness">пустой</p6>
-        <input type="radio" id="fullStomach" name="stomach">
-        <p6 id="fullness">полный</p6>
-        <button type="button" onclick="Calculate()">Расчитать</button>
+        <div id="drinksContainer"></div>
+        <button type="button" onclick="addDrink()">Добавить напиток</button><br><br>
+    
+        <label for="heightBox">Рост:</label>
+        <input type="number" id="heightBox" value="170"> см <br>
+    
+        <label for="weightBox">Масса тела:</label>
+        <input type="number" id="weightBox" value="60"> кг <br>
+    
+        <label>Ваш пол:</label><br>
+        <input type="radio" id="male" name="gender"> мужской<br>
+        <input type="radio" id="female" name="gender"> женский<br>
+    
+        <label>Наполненность желудка:</label><br>
+        <input type="radio" id="emptyStomach" name="stomach"> пустой<br>
+        <input type="radio" id="fullStomach" name="stomach"> полный<br><br>
+    
+        <button type="button" onclick="Calculate()">Рассчитать</button>
         <p id="result"></p>
-    </form>
+    </form>    
     <script src="index.js"></script>
 </body>
 </html>

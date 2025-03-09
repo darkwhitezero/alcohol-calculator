@@ -1,47 +1,59 @@
 function Calculate() {
-    const percentage = Number(document.getElementById('percentageBox').value);
-    const ml = Number(document.getElementById('mlBox').value);
+    const drinks = document.querySelectorAll('.drink');
+    let totalAlcoholMass = 0;
+    drinks.forEach(drink => {
+        const percentage = Number(drink.querySelector('.percentageBox').value);
+        const ml = Number(drink.querySelector('.mlBox').value);
+        if (percentage > 0 && ml > 0) {
+            totalAlcoholMass += (percentage / 100) * ml * 0.79;
+        }
+    });
     const weight = Number(document.getElementById('weightBox').value);
     const male = document.getElementById('male').checked;
     const female = document.getElementById('female').checked;
-    const emptyStomach = document.getElementById('emptyStomach').checked;
     const fullStomach = document.getElementById('fullStomach').checked;
-    const result = document.getElementById('result');
-    if (isNaN(percentage) || isNaN(ml) || isNaN(weight) || weight <= 0 || ml <= 0 || percentage <= 0) {
-        result.textContent = 'Введите корректные значения!';
+    if (weight <= 0 || totalAlcoholMass === 0) {
+        document.getElementById('result').textContent = 'Введите корректные данные!';
         return;
     }
-    let genderCoefficient;
-    if (male) {
-        genderCoefficient = 0.7;
-    } else if (female) {
-        genderCoefficient = 0.6;
-    } else {
-        result.textContent = 'Выберите пол!';
+    let genderCoefficient = male ? 0.7 : female ? 0.6 : null;
+    if (!genderCoefficient) {
+        document.getElementById('result').textContent = 'Выберите пол!';
         return;
     }
-    let absorptionFactor;
-    if (fullStomach) {
-        absorptionFactor = 0.8;
-    } else {
-        absorptionFactor = 1.0;
-    }
-    const alcoholMass = (percentage / 100) * ml * 0.79;
-    const alcoholConcentration = (alcoholMass / (weight * genderCoefficient)) * absorptionFactor;
+    let absorptionFactor = fullStomach ? 0.8 : 1.0;
+    const alcoholConcentration = (totalAlcoholMass / (weight * genderCoefficient)) * absorptionFactor;
+    let message;
     if (alcoholConcentration <= 0.2) {
-        result.textContent = `Концентрация алкоголя в вашей крови составляет ${alcoholConcentration.toFixed(2)}‰, что соответствует нулевой степени опьянения (присутствуют только признаки употребления спиртного).`;
-    } 
-    else if (alcoholConcentration > 0.2 && alcoholConcentration <= 1.5) {
-        result.textContent = `Концентрация алкоголя в вашей крови составляет ${alcoholConcentration.toFixed(2)}‰, что соответствует алкогольному опьянению легкой степени.`;
-    } 
-    else if (alcoholConcentration > 1.5 && alcoholConcentration <= 2.5) {
-        result.textContent = `Концентрация алкоголя в вашей крови составляет ${alcoholConcentration.toFixed(2)}‰, что соответствует алкогольному опьянению средней степени.`;
-    } 
-    else if (alcoholConcentration > 2.5 && alcoholConcentration <= 4.0) { 
-        result.textContent = `Концентрация алкоголя в вашей крови составляет ${alcoholConcentration.toFixed(2)}‰, что соответствует алкогольному опьянению тяжелой степени.`;
-    } 
-    else {
-        result.textContent = `Концентрация алкоголя в вашей крови составляет ${alcoholConcentration.toFixed(2)}‰, что соответствует алкогольному отравлению. Обратитесь за помощью.`;
+        message = "нулевой степени опьянения.";
+    } else if (alcoholConcentration <= 1.5) {
+        message = "алкогольному опьянению легкой степени.";
+    } else if (alcoholConcentration <= 2.5) {
+        message = "алкогольному опьянению средней степени.";
+    } else if (alcoholConcentration <= 4.0) {
+        message = "алкогольному опьянению тяжелой степени.";
+    } else {
+        message = "алкогольному отравлению. Обратитесь за помощью.";
     }
+     const metabolismRate = 0.1; 
+     const eliminationTime = totalAlcoholMass / (metabolismRate * weight);
+     document.getElementById('result').textContent = `Концентрация алкоголя в крови: ${alcoholConcentration.toFixed(2)}‰, что соответствует ${message}\nАлкоголь будет полностью выведен из организма через ${eliminationTime.toFixed(2)} часов.`;
 }
+function addDrink() {
+    const container = document.getElementById('drinksContainer');
+    const drinkIndex = container.children.length + 1;
+    const newDrink = document.createElement('div');
+    newDrink.classList.add('drink');
+    newDrink.innerHTML = `
+        <p>Напиток ${drinkIndex}:</p>
+        <input type="number" class="percentageBox" placeholder="Крепость,%">
+        <input type="number" class="mlBox" placeholder="Объем,мл">
+        <button type="button" onclick="removeDrink(this)">Удалить</button>
+    `;
+    container.appendChild(newDrink);
+}
+function removeDrink(button) {
+    button.parentElement.remove();
+}
+
 
