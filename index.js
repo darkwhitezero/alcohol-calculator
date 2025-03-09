@@ -4,7 +4,7 @@ function Calculate() {
     drinks.forEach(drink => {
         const percentage = Number(drink.querySelector('.percentageBox').value);
         const ml = Number(drink.querySelector('.mlBox').value);
-        if (percentage > 0 && ml > 0) {
+        if (percentage > 0 && ml > 0 && percentage <= 100) {
             totalAlcoholMass += (percentage / 100) * ml * 0.79;
         }
     });
@@ -13,7 +13,7 @@ function Calculate() {
     const female = document.getElementById('female').checked;
     const fullStomach = document.getElementById('fullStomach').checked;
     if (weight <= 0 || totalAlcoholMass === 0) {
-        document.getElementById('result').textContent = 'Введите корректные данные!';
+        document.getElementById('result').textContent = 'Проверьте корректность введенных данных.';
         return;
     }
     let genderCoefficient = male ? 0.7 : female ? 0.6 : null;
