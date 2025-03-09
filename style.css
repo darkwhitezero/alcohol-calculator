@@ -1,0 +1,74 @@
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+    background-color:rgb(232, 240, 239)
+}
+h1{
+    color:rgb(18, 109, 184)
+}
+#gender{
+    font-size: 24px;
+}
+form{
+    background-color: white;
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px hsla(0, 0%, 0%, 0.4);
+    display: flexbox;
+}
+#percentageBox{
+    width: 20%;
+    text-align: center;
+    font-size: 30px;
+    border: 2px solid hsla(0, 0%, 0%, 0.651);
+    border-radius: 5px;
+}
+#mlBox{
+    width: 20%;
+    text-align: center;
+    font-size: 30px;
+    border: 2px solid hsla(0, 0%, 0%, 0.651);
+    border-radius: 5px;
+}
+#heightBox{
+    width: 20%;
+    text-align: center;
+    font-size: 30px;
+    border: 2px solid hsla(0, 0%, 0%, 0.651);
+    border-radius: 5px;
+}
+#weightBox{
+    width: 20%;
+    text-align: center;
+    font-size: 30px;
+    border: 2px solid hsla(0, 0%, 0%, 0.651);
+    border-radius: 5px;
+}
+label{
+    font-size: 22px;
+    font-style:italic;
+    margin-left: 5px;
+}
+button{
+    margin-top: 15px;
+    background-color:hsl(120, 25%, 65%);
+    color: black;
+    font-size: 26px;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: hsl(120, 25%, 50%);
+}
+button:active{
+    background-color: hsl(120, 25%, 60%);
+}
+#result{
+    font-size: 36px;
+    font-weight: bold;
+}
