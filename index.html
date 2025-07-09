@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор алкоголя</title>
+    <title>Бухлометр</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <form>
-        <h1>Калькулятор алкоголя 🍷</h1>
+        <h1>Бухлометр 🍷</h1>
         <div id="drinksContainer"></div>
         <button type="button" onclick="addDrink()">Добавить напиток 🍹</button><br><br>
     
@@ -23,8 +23,10 @@
         <input type="radio" id="female" name="gender"> женский<br>
     
         <label>Наполненность желудка:</label><br>
-        <input type="radio" id="emptyStomach" name="stomach"> пустой<br>
-        <input type="radio" id="fullStomach" name="stomach"> полный<br><br>
+        <input type="radio" id="emptyStomach"  name="stomach"> пустой<br>
+        <input type="radio" id="partialStomach" name="stomach"> слегка перекусили<br>
+        <input type="radio" id="fullStomach"   name="stomach"> полный<br><br>
+
     
         <button type="button" onclick="Calculate()">Рассчитать</button>
         <p id="result"></p>

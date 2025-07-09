@@ -11,17 +11,37 @@ function Calculate() {
     const weight = Number(document.getElementById('weightBox').value);
     const male = document.getElementById('male').checked;
     const female = document.getElementById('female').checked;
-    const fullStomach = document.getElementById('fullStomach').checked;
+    const emptyStomach   = document.getElementById('emptyStomach').checked;
+    const partialStomach = document.getElementById('partialStomach').checked;
+    const fullStomach    = document.getElementById('fullStomach').checked;
     if (weight <= 0 || totalAlcoholMass === 0) {
         document.getElementById('result').textContent = 'Проверьте корректность введенных данных.';
         return;
     }
-    let genderCoefficient = male ? 0.7 : female ? 0.6 : null;
+    let genderCoefficient;
+    if (male) {
+        genderCoefficient = 0.7;
+    } else if (female) {
+        genderCoefficient = 0.6;
+    } else {
+        genderCoefficient = null;
+    }
     if (!genderCoefficient) {
         document.getElementById('result').textContent = 'Выберите пол!';
         return;
     }
-    let absorptionFactor = fullStomach ? 0.8 : 1.0;
+    let absorptionFactor;
+    if (emptyStomach) {
+        absorptionFactor = 1.0;
+    } else if (partialStomach) {
+        absorptionFactor = 0.9;  // слегка перекусили
+    } else if (fullStomach) {
+        absorptionFactor = 0.8;
+    } else {
+        // если не выбрано — считаем пустым
+        absorptionFactor = 1.0;
+    }
+    // Расчёт концентрации
     const alcoholConcentration = (totalAlcoholMass / (weight * genderCoefficient)) * absorptionFactor;
     let message;
     if (alcoholConcentration <= 0.2) {
@@ -51,6 +71,7 @@ function addDrink() {
         <button type="button" onclick="removeDrink(this)">Удалить</button>
     `;
     container.appendChild(newDrink);
+    
 }
 function removeDrink(button) {
     button.parentElement.remove();
