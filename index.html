@@ -1,36 +1,108 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бухлометр</title>
+    <meta name="description" content="Калькулятор алкоголя в крови - расчет промилле по формуле Видмарка">
+    <title>Бухлометр — Калькулятор алкоголя</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <form>
-        <h1>Бухлометр 🍷</h1>
-        <div id="drinksContainer"></div>
-        <button type="button" onclick="addDrink()">Добавить напиток 🍹</button><br><br>
-    
-        <label for="heightBox">Рост:</label>
-        <input type="number" id="heightBox" value="170"> см <br>
-    
-        <label for="weightBox">Масса тела:</label>
-        <input type="number" id="weightBox" value="60"> кг <br>
-    
-        <label>Ваш пол:</label><br>
-        <input type="radio" id="male" name="gender"> мужской<br>
-        <input type="radio" id="female" name="gender"> женский<br>
-    
-        <label>Наполненность желудка:</label><br>
-        <input type="radio" id="emptyStomach"  name="stomach"> пустой<br>
-        <input type="radio" id="partialStomach" name="stomach"> слегка перекусили<br>
-        <input type="radio" id="fullStomach"   name="stomach"> полный<br><br>
 
-    
-        <button type="button" onclick="Calculate()">Рассчитать</button>
-        <p id="result"></p>
-    </form>    
-    <script src="index.js"></script>
+<body>
+    <div class="app-container">
+        <div class="card">
+            <div class="card-content">
+
+                <h1 class="header">
+                    <span class="icon">🍸</span>
+                    Бухлометр
+                </h1>
+
+                <section class="section section-gray">
+                    <h2 class="section-title">ФИЗИОЛОГИЧЕСКИЕ ДАННЫЕ</h2>
+
+                    <div class="toggle-group" id="gender-toggle">
+                        <button type="button" class="toggle-btn active" data-value="male">Мужчина</button>
+                        <button type="button" class="toggle-btn" data-value="female">Женщина</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="weight">Вес (кг)</label>
+                            <input type="number" id="weight" value="89" min="30" max="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="height">Рост (см)</label>
+                            <input type="number" id="height" value="184" min="100" max="250">
+                            <span class="helper-text">Важно для расчета ИМТ</span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="form-group">
+                    <label for="stomach">Наполненность желудка</label>
+                    <div class="select-wrapper">
+                        <span class="select-icon">🍽️</span>
+                        <select id="stomach">
+                            <option value="empty">Пустой</option>
+                            <option value="snack">Легкий перекус</option>
+                            <option value="full">Полный обед/ужин</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <section class="section">
+                    <h2 class="section-title">ВЫПИТОЕ</h2>
+
+                    <div id="drinks-container">
+                    </div>
+
+                    <button type="button" class="btn btn-outlined btn-dashed" id="add-drink-btn">
+                        <span class="btn-icon">➕</span>
+                        Добавить еще напиток
+                    </button>
+                </section>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label for="time">Прошло времени с начала употребления (часов)</label>
+                    <input type="number" id="time" value="0" min="0" max="72" step="0.5">
+                    <span class="helper-text">Макс. концентрация достигается через ~1 час</span>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-large" id="calculate-btn">
+                    Рассчитать результат
+                </button>
+
+                <div id="result-container" class="result-box hidden">
+                    <div class="result-value" id="result-promille">0.00 ‰</div>
+                    <div class="result-status" id="result-status">Трезвость</div>
+                    <div class="result-time" id="result-time"></div>
+                </div>
+
+                <div class="alert alert-info">
+                    <span class="alert-icon">ℹ️</span>
+                    <div class="alert-content">
+                        <strong>Отказ от ответственности:</strong> Данный калькулятор предоставляет лишь приблизительные
+                        расчеты, основанные на средних статистических данных (формула Видмарка-Зайдля).
+                        Он не учитывает индивидуальные генетические особенности метаболизма, состояние печени, прием
+                        лекарств и другие факторы.
+                        <br><br>
+                        Результаты расчетов <strong>не имеют юридической силы</strong> и не могут быть использованы для
+                        оспаривания результатов медицинского освидетельствования или алкотестеров ГИБДД.
+                        Никогда не садитесь за руль после употребления алкоголя, даже если калькулятор показывает "0".
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
