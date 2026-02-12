@@ -85,6 +85,10 @@ function renderDrinks() {
         const drinkEl = document.createElement('div');
         drinkEl.className = 'drink-item';
         drinkEl.innerHTML = `
+            <button type="button" class="btn-delete" data-id="${drink.id}" 
+                    ${state.drinks.length === 1 ? 'disabled' : ''} title="Удалить напиток">
+                ✕
+            </button>
             <div class="drink-fields">
                 <div class="form-group">
                     <label>Вид напитка</label>
@@ -109,10 +113,6 @@ function renderDrinks() {
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn-delete" data-id="${drink.id}" 
-                    ${state.drinks.length === 1 ? 'disabled' : ''} title="Удалить напиток">
-                🗑️
-            </button>
         `;
         container.appendChild(drinkEl);
     });
@@ -156,13 +156,13 @@ function getStatus(val) {
         return { text: 'Трезвость', className: 'status-success' };
     }
     if (val < 0.3) {
-        return { text: 'Допустимая норма (в РФ для водителей < 0.3)', className: 'status-success' };
+        return { text: 'Незначительное опьянение/допустимая норма (в РФ для водителей < 0.3)', className: 'status-success' };
     }
     if (val <= 0.5) {
-        return { text: 'Легкое опьянение', className: 'status-warning' };
+        return { text: 'Лёгкое опьянение', className: 'status-warning' };
     }
     if (val <= 1.5) {
-        return { text: 'Опьянение (Вождение запрещено)', className: 'status-error' };
+        return { text: 'Среднее опьянение', className: 'status-error' };
     }
     if (val <= 2.5) {
         return { text: 'Сильное опьянение', className: 'status-danger' };
@@ -170,14 +170,42 @@ function getStatus(val) {
     return { text: 'Тяжелое отравление', className: 'status-critical' };
 }
 
+function clearValidationErrors() {
+    document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+}
+
 function handleCalculate() {
+    clearValidationErrors();
     const w = parseFloat(state.weight);
     const h = parseFloat(state.height);
     const t = parseFloat(state.time);
 
+    let hasError = false;
+
     if (!w || !h || state.drinks.length === 0) {
         return;
     }
+
+    if (w > 750) {
+        elements.weight.classList.add('input-error');
+        hasError = true;
+    }
+
+    if (h > 300) {
+        elements.height.classList.add('input-error');
+        hasError = true;
+    }
+
+    state.drinks.forEach(drink => {
+        const abv = parseFloat(drink.abv) || 0;
+        if (abv > 100) {
+            const abvInput = document.querySelector(`.drink-abv[data-id="${drink.id}"]`);
+            if (abvInput) abvInput.classList.add('input-error');
+            hasError = true;
+        }
+    });
+
+    if (hasError) return;
 
     let totalAlcoholMass = 0;
 

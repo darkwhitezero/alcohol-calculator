@@ -91,12 +91,49 @@ body::before {
     }
 }
 
+.header-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header-gif {
+    width: 120px;
+    height: auto;
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    mix-blend-mode: multiply;
+    background: #ffffff;
+    isolation: isolate;
+}
+
+.header-byline {
+    font-size: 0.7rem;
+    color: var(--gray);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.header-byline a {
+    color: var(--mid-gray);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.header-byline a:hover {
+    color: var(--black);
+    text-decoration: underline;
+}
+
 .header {
     text-align: center;
     font-size: 1.6rem;
     font-weight: 800;
     color: var(--black);
-    margin-bottom: 24px;
+    margin-bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,11 +289,13 @@ body::before {
 }
 
 .drink-item {
+    position: relative;
     display: flex;
     gap: 8px;
     align-items: flex-start;
     margin-bottom: 16px;
     padding: 14px;
+    padding-right: 40px;
     background: var(--bg-gray);
     border-radius: var(--radius);
     border: 1px solid var(--pale-gray);
@@ -289,29 +328,32 @@ body::before {
 }
 
 .btn-delete {
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--pale-gray);
-    background: var(--white);
-    color: var(--dark-gray);
-    font-size: 1.2rem;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1;
     cursor: pointer;
-    border-radius: var(--radius);
+    border-radius: 50%;
     transition: all 0.2s ease;
-    margin-top: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
 .btn-delete:hover:not(:disabled) {
     background: var(--black);
     color: var(--white);
-    border-color: var(--black);
 }
 
 .btn-delete:disabled {
-    opacity: 0.3;
+    opacity: 0.2;
     cursor: not-allowed;
 }
 
@@ -391,6 +433,14 @@ body::before {
     animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.result-label {
+    font-size: 0.75rem;
+    color: var(--light-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
 .result-value {
     font-size: 3.5rem;
     font-weight: 900;
@@ -465,6 +515,11 @@ body::before {
 
 .alert-content {
     flex: 1;
+}
+
+.input-error {
+    border-color: #ff4444 !important;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.15) !important;
 }
 
 @keyframes fadeIn {
