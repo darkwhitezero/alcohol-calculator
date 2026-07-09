@@ -1,6 +1,19 @@
 <template>
   <div class="alert alert-info">
-    <span class="alert-icon" aria-hidden="true">ℹ️</span>
+    <svg
+      class="alert-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5" />
+      <circle cx="12" cy="7.5" r="0.75" fill="currentColor" stroke="none" />
+    </svg>
     <div class="alert-content">
       <strong>ВАЖНО:</strong> Данный калькулятор предоставляет лишь приблизительные
       расчеты, основанные на средних статистических данных (формула Видмарка-Зайдля).

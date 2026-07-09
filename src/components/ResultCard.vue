@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useCountUp } from '../composables/useCountUp'
 import { buildShareText, buildShareUrl, copyToClipboard, shareOrCopy } from '../lib/share'
 import type { BacStatus, CalcResult, PersistedFormState } from '../lib/types'
 
@@ -10,13 +11,17 @@ const props = defineProps<{
   formState: PersistedFormState
 }>()
 
+// Число "докручивается" от прошлого значения к новому, а не подменяется мгновенно.
+// Заводится на уровне компонента (а не внутреннего :key-блока), поэтому корректно
+// анимируется между пересчётами, даже когда сам result-box перемонтируется по key.
+const targetPromille = computed(() => props.result?.promille ?? 0)
+const displayedPromille = useCountUp(targetPromille)
+
 // Отдельная планка сверху статуса, чтобы уровень опьянения читался с одного взгляда,
 // не вчитываясь в текст. Шкала условно закрыта на 3 ‰ — дальше это уже край диапазона "тяжёлое отравление".
+// Использует то же "докручивающееся" значение, что и число — бар и цифра едут синхронно.
 const METER_CEILING = 3
-const meterPercent = computed(() => {
-  if (!props.result) return 0
-  return Math.min(100, (props.result.promille / METER_CEILING) * 100)
-})
+const meterPercent = computed(() => Math.min(100, (displayedPromille.value / METER_CEILING) * 100))
 
 const feedback = ref('')
 let feedbackTimer: ReturnType<typeof setTimeout> | undefined
@@ -61,7 +66,7 @@ async function handleShare() {
     aria-live="polite"
   >
     <div class="result-label">Концентрация алкоголя в крови составляет</div>
-    <div class="result-value">{{ result.promille.toFixed(2) }} ‰</div>
+    <div class="result-value">{{ displayedPromille.toFixed(2) }} ‰</div>
     <div class="result-status" :class="status.className">{{ status.text }}</div>
 
     <div class="result-meter" aria-hidden="true">

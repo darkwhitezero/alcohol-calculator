@@ -15,6 +15,10 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="canonical" href="https://darkwhitezero.github.io/alcohol-calculator/">
 
+    <!-- Шрифт заголовка — это LCP-текст, поэтому предзагружаем именно его
+         (только кириллический подсет: в заголовке нет латинских символов) -->
+    <link rel="preload" as="font" type="font/woff2" href="/src/assets/fonts/playfair-display-900-cyrillic.woff2" crossorigin>
+
     <!-- Open Graph — чтобы ссылка красиво разворачивалась в мессенджерах и соцсетях -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Бухлометр — калькулятор алкоголя в крови">

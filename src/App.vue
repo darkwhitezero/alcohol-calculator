@@ -31,9 +31,11 @@ const {
   <div class="app-container">
     <div class="card">
       <div class="card-content">
-        <AppHeader />
+        <AppHeader class="entrance" style="--entrance-index: 0" />
 
         <PhysioSection
+          class="entrance"
+          style="--entrance-index: 1"
           v-model:gender="gender"
           v-model:weight="weight"
           v-model:height="height"
@@ -41,13 +43,15 @@ const {
           :height-error="errors.height"
         />
 
-        <StomachSelect v-model="stomach" />
+        <StomachSelect class="entrance" style="--entrance-index: 2" v-model="stomach" />
 
         <hr class="divider">
 
         <DrinksList
+          class="entrance"
+          style="--entrance-index: 3"
           :drinks="drinks"
-          :drink-abv-errors="errors.drinkAbv"
+          :drink-errors="errors.drinks"
           @add="addDrink"
           @remove="removeDrink"
           @preset-change="applyPreset"
@@ -55,9 +59,14 @@ const {
 
         <hr class="divider">
 
-        <TimeInput v-model="time" />
+        <TimeInput class="entrance" style="--entrance-index: 4" v-model="time" :time-error="errors.time" />
 
-        <button type="button" class="btn btn-primary btn-large" @click="calculate">
+        <button
+          type="button"
+          class="btn btn-primary btn-large entrance"
+          style="--entrance-index: 5"
+          @click="calculate"
+        >
           Рассчитать результат
         </button>
 
@@ -68,7 +77,7 @@ const {
           :form-state="persistedState"
         />
 
-        <InfoAlert />
+        <InfoAlert class="entrance" style="--entrance-index: 6" />
       </div>
     </div>
   </div>

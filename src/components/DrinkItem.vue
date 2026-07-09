@@ -7,7 +7,8 @@ import type { Drink } from '../lib/types'
 // состояние формы во всём приложении — без пробрасывания emit на каждое поле.
 const props = defineProps<{
   drink: Drink
-  abvError: boolean
+  volumeError: string
+  abvError: string
   canDelete: boolean
 }>()
 
@@ -32,7 +33,9 @@ function onPresetChange(event: Event) {
       :aria-label="`Удалить напиток: ${drink.label}`"
       @click="emit('remove', drink.id)"
     >
-      ✕
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M18 6 6 18M6 6l12 12" />
+      </svg>
     </button>
     <div class="drink-fields">
       <div class="form-group">
@@ -46,7 +49,17 @@ function onPresetChange(event: Event) {
       <div class="drink-row">
         <div class="form-group">
           <label :for="`volume-${drink.id}`">Объем (мл)</label>
-          <input :id="`volume-${drink.id}`" v-model="drink.volume" type="number" min="0" max="10000">
+          <input
+            :id="`volume-${drink.id}`"
+            v-model="drink.volume"
+            type="number"
+            min="0"
+            max="10000"
+            :class="{ 'input-error': volumeError }"
+            :aria-invalid="!!volumeError"
+            :aria-describedby="volumeError ? `volume-error-${drink.id}` : undefined"
+          >
+          <span v-if="volumeError" :id="`volume-error-${drink.id}`" class="field-error" role="alert">{{ volumeError }}</span>
         </div>
         <div class="form-group">
           <label :for="`abv-${drink.id}`">Крепость (%)</label>
@@ -58,8 +71,10 @@ function onPresetChange(event: Event) {
             max="100"
             step="0.1"
             :class="{ 'input-error': abvError }"
-            :aria-invalid="abvError"
+            :aria-invalid="!!abvError"
+            :aria-describedby="abvError ? `abv-error-${drink.id}` : undefined"
           >
+          <span v-if="abvError" :id="`abv-error-${drink.id}`" class="field-error" role="alert">{{ abvError }}</span>
         </div>
       </div>
     </div>

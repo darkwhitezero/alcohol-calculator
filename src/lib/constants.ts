@@ -47,7 +47,11 @@ export const NEW_DRINK_TEMPLATE = {
   abv: '4.5',
 }
 
-// Границы валидации — те же, что были в исходном коде.
+// Границы валидации — верхние были и раньше, нижние добавлены для более серьёзной проверки.
+export const MIN_WEIGHT_KG = 30 // совпадает с HTML min на поле веса
 export const MAX_WEIGHT_KG = 750
+export const MIN_HEIGHT_CM = 100 // совпадает с HTML min на поле роста
 export const MAX_HEIGHT_CM = 300
 export const MAX_ABV_PERCENT = 100
+export const MAX_VOLUME_ML = 10000
+export const MAX_TIME_HOURS = 72

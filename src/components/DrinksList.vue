@@ -4,7 +4,7 @@ import DrinkItem from './DrinkItem.vue'
 
 defineProps<{
   drinks: Drink[]
-  drinkAbvErrors: Record<string, boolean>
+  drinkErrors: Record<string, { volume: string; abv: string }>
 }>()
 
 const emit = defineEmits<{
@@ -23,7 +23,8 @@ const emit = defineEmits<{
         v-for="drink in drinks"
         :key="drink.id"
         :drink="drink"
-        :abv-error="!!drinkAbvErrors[drink.id]"
+        :volume-error="drinkErrors[drink.id]?.volume ?? ''"
+        :abv-error="drinkErrors[drink.id]?.abv ?? ''"
         :can-delete="drinks.length > 1"
         @remove="(id) => emit('remove', id)"
         @preset-change="(id, label) => emit('presetChange', id, label)"
@@ -31,7 +32,9 @@ const emit = defineEmits<{
     </TransitionGroup>
 
     <button type="button" class="btn btn-outlined btn-dashed" @click="emit('add')">
-      <span class="btn-icon" aria-hidden="true">➕</span>
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M12 5v14M5 12h14" />
+      </svg>
       Добавить еще напиток
     </button>
   </section>

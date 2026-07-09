@@ -61,3 +61,20 @@ export interface PersistedFormState {
   time: string
   drinks: Drink[]
 }
+
+/** Ошибки валидации формы — пустая строка означает "поле валидно". */
+export interface ValidationErrors {
+  weight: string
+  height: string
+  time: string
+  /** Ключ — id напитка. */
+  drinks: Record<string, { volume: string; abv: string }>
+}
+
+/** Данные формы в "сыром" виде (строки из инпутов), нужные для валидации. */
+export interface FormInput {
+  weight: string
+  height: string
+  time: string
+  drinks: Drink[]
+}

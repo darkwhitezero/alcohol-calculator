@@ -3,19 +3,19 @@
 // из исходного script.js — Vue сам синхронизирует DOM с этим состоянием.
 
 import { computed, reactive, ref, watch } from 'vue'
-import {
-  DEFAULT_DRINK,
-  DEFAULT_FORM,
-  DRINK_PRESETS,
-  MAX_ABV_PERCENT,
-  MAX_HEIGHT_CM,
-  MAX_WEIGHT_KG,
-  NEW_DRINK_TEMPLATE,
-} from '../lib/constants'
+import { DEFAULT_DRINK, DEFAULT_FORM, DRINK_PRESETS, NEW_DRINK_TEMPLATE } from '../lib/constants'
 import { parseStateFromUrl } from '../lib/share'
 import { loadFormState, saveFormState } from '../lib/storage'
+import { createEmptyErrors, hasValidationErrors, validateForm } from '../lib/validation'
 import { calcBac, getBacStatus } from '../lib/widmark'
-import type { BacStatus, CalcResult, Drink, Gender, PersistedFormState, StomachFullness } from '../lib/types'
+import type {
+  BacStatus,
+  CalcResult,
+  Drink,
+  Gender,
+  PersistedFormState,
+  StomachFullness,
+} from '../lib/types'
 
 let idCounter = 0
 /** Простой генератор id напитка: время + счётчик, коллизии исключены. */
@@ -44,11 +44,8 @@ export function useCalculatorForm() {
   // чтобы анимация появления проигрывалась заново даже при пересчёте.
   const calculationCount = ref(0)
 
-  const errors = reactive({
-    weight: false,
-    height: false,
-    drinkAbv: {} as Record<string, boolean>,
-  })
+  // Сообщения об ошибках по каждому полю — пустая строка значит "всё в порядке".
+  const errors = reactive(createEmptyErrors())
 
   function addDrink() {
     drinks.push({ id: generateDrinkId(), ...NEW_DRINK_TEMPLATE })
@@ -58,6 +55,7 @@ export function useCalculatorForm() {
     if (drinks.length <= 1) return // всегда должен остаться хотя бы один напиток
     const index = drinks.findIndex((d) => d.id === id)
     if (index !== -1) drinks.splice(index, 1)
+    delete errors.drinks[id] // не копим ошибки для уже удалённых напитков
   }
 
   function applyPreset(id: string, presetLabel: string) {
@@ -69,41 +67,38 @@ export function useCalculatorForm() {
     }
   }
 
-  function clearErrors() {
-    errors.weight = false
-    errors.height = false
-    errors.drinkAbv = {}
-  }
+  // Сбрасываем ошибку конкретного поля, как только пользователь начал его
+  // исправлять — полноценная проверка снова случится по кнопке «Рассчитать».
+  watch(weight, () => { errors.weight = '' })
+  watch(height, () => { errors.height = '' })
+  watch(time, () => { errors.time = '' })
+  watch(
+    drinks,
+    () => {
+      for (const drink of drinks) {
+        if (errors.drinks[drink.id]) errors.drinks[drink.id] = { volume: '', abv: '' }
+      }
+    },
+    { deep: true },
+  )
 
   function calculate() {
-    clearErrors()
+    const validation = validateForm({
+      weight: weight.value,
+      height: height.value,
+      time: time.value,
+      drinks,
+    })
+    errors.weight = validation.weight
+    errors.height = validation.height
+    errors.time = validation.time
+    errors.drinks = validation.drinks
+
+    if (hasValidationErrors(validation)) return
 
     const w = parseFloat(weight.value)
     const h = parseFloat(height.value)
-    const t = parseFloat(time.value) || 0
-
-    // Без веса/роста/напитков считать нечего — тихо выходим, как и раньше.
-    if (!w || !h || drinks.length === 0) return
-
-    let hasError = false
-
-    if (w > MAX_WEIGHT_KG) {
-      errors.weight = true
-      hasError = true
-    }
-    if (h > MAX_HEIGHT_CM) {
-      errors.height = true
-      hasError = true
-    }
-    for (const drink of drinks) {
-      const abv = parseFloat(drink.abv) || 0
-      if (abv > MAX_ABV_PERCENT) {
-        errors.drinkAbv[drink.id] = true
-        hasError = true
-      }
-    }
-
-    if (hasError) return
+    const t = parseFloat(time.value) || 0 // пустое время валидно и считается как 0
 
     result.value = calcBac({
       gender: gender.value,

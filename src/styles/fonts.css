@@ -1,0 +1,63 @@
+/* Self-hosted шрифты — файлы лежат в src/assets/fonts, никаких запросов к
+   Google Fonts CDN в проде. Оба семейства распространяются по лицензии
+   SIL Open Font License 1.1 (Playfair Display — Claus Eggers Sørensen,
+   PT Sans — ParaType). Подмножества: кириллица + латиница (ровно то, что
+   нужно для русского текста и английских вставок вроде "GitHub").
+
+   Playfair Display 900 — только для заголовка "БУХЛОМЕТР" (нужен один
+   насыщенный вес, это не текст для чтения). PT Sans 400/700 — весь
+   остальной интерфейс: обычный текст и акцентный/жирный. */
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/playfair-display-900-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F, U+2192, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/pt-sans-400-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/pt-sans-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F, U+2192, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/pt-sans-700-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/pt-sans-700-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F, U+2192, U+2212, U+2215;
+}

@@ -55,6 +55,7 @@
 
 body {
   font-family:
+    'PT Sans',
     'Segoe UI',
     system-ui,
     -apple-system,
@@ -89,6 +90,7 @@ body::before {
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
@@ -150,10 +152,19 @@ body::before {
 }
 
 .header-byline a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: var(--mid-gray);
   text-decoration: none;
   font-weight: 600;
-  transition: color var(--motion-fast) ease;
+  transition: color var(--motion-fast) var(--ease-out);
+}
+
+.icon-github {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .header-byline a:hover {
@@ -163,21 +174,23 @@ body::before {
 
 .header {
   text-align: center;
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-family: 'Playfair Display', 'PT Sans', serif;
+  font-size: 2.1rem;
+  font-weight: 900;
   color: var(--black);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
   text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .header .icon {
-  font-size: 1.5rem;
-  filter: grayscale(100%);
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
 }
 
 /* ---------- Секции и поля ---------- */
@@ -204,6 +217,7 @@ body::before {
 }
 
 .toggle-group {
+  position: relative;
   display: flex;
   border: 2px solid var(--black);
   border-radius: var(--radius);
@@ -211,16 +225,32 @@ body::before {
   margin-bottom: var(--space-4);
 }
 
+/* Плашка-индикатор едет между "Мужчина"/"Женщина" вместо мгновенной смены
+   фона. Ширина считается по количеству опций, а не жёстко 50% — на случай,
+   если вариантов вдруг станет больше двух. */
+.toggle-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: calc(100% / var(--toggle-options, 2));
+  background: var(--black);
+  transition: transform var(--motion-base) var(--ease-out);
+  z-index: 0;
+}
+
 .toggle-btn {
+  position: relative;
+  z-index: 1;
   flex: 1;
   padding: 10px 16px;
   border: none;
-  background: var(--white);
+  background: transparent;
   color: var(--black);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
+  transition: color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -229,13 +259,16 @@ body::before {
   border-right: 2px solid var(--black);
 }
 
-.toggle-btn:hover {
+.toggle-btn:hover:not(.active) {
   background: var(--off-white);
 }
 
 .toggle-btn.active {
-  background: var(--black);
   color: var(--white);
+}
+
+.toggle-btn:active {
+  transform: scale(0.97);
 }
 
 .toggle-btn:focus-visible,
@@ -281,7 +314,7 @@ body::before {
   font-variant-numeric: tabular-nums;
   color: var(--text-primary);
   background: var(--white);
-  transition: border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+  transition: border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
   min-height: 44px; /* комфортный тач-таргет */
 }
 
@@ -303,6 +336,17 @@ body::before {
   font-style: italic;
 }
 
+.field-error {
+  display: block;
+  font-size: 0.8rem;
+  /* Не var(--danger) (#ff4444 на белом ~3.5:1) — для текста нужен более тёмный
+     оттенок, чтобы пройти WCAG AA (этот даёт ~5.9:1). Рамка инпута может
+     оставаться ярче, т.к. это не текст, а декоративный акцент. */
+  color: #c62828;
+  margin-top: var(--space-1);
+  font-weight: 600;
+}
+
 .select-wrapper {
   position: relative;
   display: flex;
@@ -312,10 +356,11 @@ body::before {
 .select-wrapper .select-icon {
   position: absolute;
   left: 12px;
-  font-size: 1.1rem;
+  width: 18px;
+  height: 18px;
   pointer-events: none;
   z-index: 1;
-  filter: grayscale(100%);
+  color: var(--mid-gray);
 }
 
 .select-wrapper select {
@@ -346,7 +391,7 @@ body::before {
   background: var(--bg-gray);
   border-radius: var(--radius);
   border: 1px solid var(--pale-gray);
-  transition: border-color var(--motion-fast) ease;
+  transition: border-color var(--motion-fast) var(--ease-out);
 }
 
 .drink-item:hover {
@@ -392,7 +437,8 @@ body::before {
   line-height: 1;
   cursor: pointer;
   border-radius: 50%;
-  transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
+  transition: background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -404,9 +450,18 @@ body::before {
   color: var(--white);
 }
 
+.btn-delete:active:not(:disabled) {
+  transform: scale(0.9);
+}
+
 .btn-delete:disabled {
   opacity: 0.2;
   cursor: not-allowed;
+}
+
+.btn-delete svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* Плавное появление/исчезновение позиций напитков (<TransitionGroup>). */
@@ -443,7 +498,8 @@ body::before {
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: background var(--motion-fast) ease, box-shadow var(--motion-fast) ease, transform var(--motion-fast) ease;
+  transition: background var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -451,7 +507,9 @@ body::before {
 }
 
 .btn-icon {
-  font-size: 1.1rem;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 .btn-primary {
@@ -470,7 +528,13 @@ body::before {
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.97);
+}
+
+/* Лёгкий фидбэк на нажатие для остальных кнопок (не .btn-primary — у неё
+   уже свой transform выше, отдельное правило проще, чем их совмещать). */
+.btn:active:not(.btn-primary) {
+  transform: scale(0.97);
 }
 
 .btn-outlined {
@@ -632,9 +696,10 @@ body::before {
 }
 
 .alert-icon {
-  font-size: 1rem;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
-  filter: grayscale(100%);
+  margin-top: 1px;
 }
 
 .alert-content {
@@ -656,4 +721,25 @@ body::before {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes entrance {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Каскадное появление секций формы при загрузке страницы. Каждая секция
+   задаёт свой порядковый номер через --entrance-index (см. App.vue) —
+   получается лёгкая "волна" сверху вниз, а не всё сразу. `both` держит
+   элемент невидимым до начала своей задержки (никакого мигания). */
+.entrance {
+  animation: entrance var(--motion-base) var(--ease-out) both;
+  animation-delay: calc(var(--entrance-index, 0) * 60ms);
 }
