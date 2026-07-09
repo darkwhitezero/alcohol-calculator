@@ -4,111 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Калькулятор алкоголя в крови - расчет промилле по формуле Видмарка">
-    <title>Бухлометр — Калькулятор алкоголя</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description"
+        content="Бухлометр — калькулятор алкоголя в крови. Рассчитывает промилле и время до вытрезвления по формуле Видмарка-Зайдля с учётом пола, веса, роста и напитков.">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <title>Бухлометр — калькулятор алкоголя в крови</title>
+
+    <!-- Путь без ведущего слэша — Vite сам подставит правильный base-path
+         (при "%BASE_URL%" + абсолютном пути Vite задваивает префикс в dev-режиме) -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://darkwhitezero.github.io/alcohol-calculator/">
+
+    <!-- Open Graph — чтобы ссылка красиво разворачивалась в мессенджерах и соцсетях -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Бухлометр — калькулятор алкоголя в крови">
+    <meta property="og:description"
+        content="Считает промилле и время до вытрезвления по формуле Видмарка-Зайдля. Не медицинский и не юридический инструмент.">
+    <meta property="og:url" content="https://darkwhitezero.github.io/alcohol-calculator/">
+    <meta property="og:image" content="https://darkwhitezero.github.io/alcohol-calculator/og-preview.png">
+    <meta property="og:locale" content="ru_RU">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Бухлометр — калькулятор алкоголя в крови">
+    <meta name="twitter:description" content="Промилле и время до вытрезвления по формуле Видмарка-Зайдля.">
+    <meta name="twitter:image" content="https://darkwhitezero.github.io/alcohol-calculator/og-preview.png">
 </head>
 
 <body>
-    <div class="app-container">
-        <div class="card">
-            <div class="card-content">
-
-                <div class="header-wrapper">
-                    <img src="assets/302b53e60f6f5a4089a69799d68ce736.gif" alt="" class="header-gif">
-                    <h1 class="header">
-                        <span class="icon">🍸</span>
-                        Бухлометр
-                    </h1>
-                    <span class="header-byline">by <a href="https://github.com/darkwhitezero" target="_blank"
-                            rel="noopener">darkwhitezero</a></span>
-                </div>
-
-                <section class="section section-gray">
-                    <h2 class="section-title">ФИЗИОЛОГИЧЕСКИЕ ДАННЫЕ</h2>
-
-                    <div class="toggle-group" id="gender-toggle">
-                        <button type="button" class="toggle-btn active" data-value="male">Мужчина</button>
-                        <button type="button" class="toggle-btn" data-value="female">Женщина</button>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="weight">Вес (кг)</label>
-                            <input type="number" id="weight" value="89" min="30" max="750">
-                        </div>
-                        <div class="form-group">
-                            <label for="height">Рост (см)</label>
-                            <input type="number" id="height" value="184" min="100" max="300">
-                            <span class="helper-text">*Важно для расчета ИМТ</span>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="form-group">
-                    <label for="stomach">Наполненность желудка</label>
-                    <div class="select-wrapper">
-                        <span class="select-icon">🍽️</span>
-                        <select id="stomach">
-                            <option value="empty">Пустой</option>
-                            <option value="snack">Слегка перекусили</option>
-                            <option value="full">Полный (обед/ужин)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <hr class="divider">
-
-                <section class="section">
-                    <h2 class="section-title">ВЫПИТОЕ</h2>
-
-                    <div id="drinks-container">
-                    </div>
-
-                    <button type="button" class="btn btn-outlined btn-dashed" id="add-drink-btn">
-                        <span class="btn-icon">➕</span>
-                        Добавить еще напиток
-                    </button>
-                </section>
-
-                <hr class="divider">
-
-                <div class="form-group">
-                    <label for="time">Прошло времени с начала употребления (часов)</label>
-                    <input type="number" id="time" value="0" min="0" max="72" step="0.5">
-                    <span class="helper-text">Максимальная концентрация достигается через ~1 час</span>
-                </div>
-
-                <button type="button" class="btn btn-primary btn-large" id="calculate-btn">
-                    Рассчитать результат
-                </button>
-
-                <div id="result-container" class="result-box hidden">
-                    <div class="result-label">Концентрация алкоголя в крови составляет</div>
-                    <div class="result-value" id="result-promille">0.00 ‰</div>
-                    <div class="result-status" id="result-status">Трезвость</div>
-                    <div class="result-time" id="result-time"></div>
-                </div>
-
-                <div class="alert alert-info">
-                    <span class="alert-icon">ℹ️</span>
-                    <div class="alert-content">
-                        <strong>ВАЖНО:</strong> Данный калькулятор предоставляет лишь приблизительные
-                        расчеты, основанные на средних статистических данных (формула Видмарка-Зайдля).
-                        Он не учитывает индивидуальные генетические особенности метаболизма, состояние печени, прием
-                        лекарств и другие факторы.
-                        <br><br>
-                        Результаты расчетов <strong>не имеют юридической силы</strong> и не могут быть использованы для
-                        оспаривания результатов медицинского освидетельствования или алкотестеров ГИБДД.
-                        Никогда не садитесь за руль после употребления алкоголя, даже если калькулятор показывает "0".
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 
 </html>

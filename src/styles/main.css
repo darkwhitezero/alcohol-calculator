@@ -1,0 +1,659 @@
+/* Бухлометр — глобальные стили.
+   Вайб намеренно сохранён: чёрно-белая палитра + ч/б фон с Йегермейстером.
+   По сравнению со старой версией: аккуратнее ритм отступов, честные фокус-состояния,
+   табличные цифры для промилле, индикатор уровня опьянения и уважение к
+   prefers-reduced-motion / prefers-contrast. */
+
+:root {
+  --black: #000000;
+  --near-black: #1a1a1a;
+  --dark-gray: #2d2d2d;
+  --mid-gray: #555555;
+  --gray: #888888;
+  --light-gray: #b0b0b0;
+  --pale-gray: #d0d0d0;
+  --off-white: #e8e8e8;
+  --white: #ffffff;
+
+  --primary: var(--near-black);
+  --text-primary: var(--near-black);
+  --text-secondary: var(--mid-gray);
+  --bg-gray: #f0f0f0;
+  --border-result: var(--pale-gray);
+  --divider: var(--pale-gray);
+
+  --danger-soft: #ff6b6b;
+  --danger: #ff4444;
+  /* Чистый #ff0000 на фоне --near-black не дотягивает до WCAG AA (4.5:1) для текста —
+     берём чуть более светлый оттенок с явным запасом по контрасту. */
+  --danger-strong: #ff5252;
+
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.35);
+  --radius: 8px;
+  --radius-lg: 18px;
+
+  /* Единая шкала отступов — чтобы ритм карточки был последовательным. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --motion-fast: 0.16s;
+  --motion-base: 0.25s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  color: var(--text-primary);
+  line-height: 1.5;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #1a1a1a;
+  background-image: url('../assets/jagermeister-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: grayscale(100%) brightness(0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.app-container {
+  width: 100%;
+  max-width: 640px;
+  padding: 40px 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--pale-gray);
+  backdrop-filter: blur(14px);
+}
+
+.card-content {
+  padding: var(--space-8);
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    padding: 20px 12px;
+  }
+
+  .card-content {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+/* ---------- Шапка ---------- */
+
+.header-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.header-gif {
+  width: 120px;
+  height: auto;
+  margin-bottom: var(--space-3);
+  /* Фон у гифки уже удалён на этапе обработки ассета (flood-fill + альфа-канал),
+     поэтому никаких CSS-хаков вроде mix-blend-mode здесь больше не нужно. */
+  filter: grayscale(100%) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+.header-byline {
+  font-size: 0.7rem;
+  color: var(--gray);
+  margin-top: var(--space-2);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.header-byline a {
+  color: var(--mid-gray);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--motion-fast) ease;
+}
+
+.header-byline a:hover {
+  color: var(--black);
+  text-decoration: underline;
+}
+
+.header {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.header .icon {
+  font-size: 1.5rem;
+  filter: grayscale(100%);
+}
+
+/* ---------- Секции и поля ---------- */
+
+.section {
+  margin-bottom: var(--space-5);
+}
+
+.section-gray {
+  background: var(--bg-gray);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-5);
+  border: 1px solid var(--pale-gray);
+}
+
+.section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--mid-gray);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: var(--space-3);
+}
+
+.toggle-group {
+  display: flex;
+  border: 2px solid var(--black);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  background: var(--white);
+  color: var(--black);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.toggle-btn:not(:last-child) {
+  border-right: 2px solid var(--black);
+}
+
+.toggle-btn:hover {
+  background: var(--off-white);
+}
+
+.toggle-btn.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.toggle-btn:focus-visible,
+.btn:focus-visible,
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.btn-delete:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 2px;
+}
+
+.row {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.row > * {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--mid-gray);
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--pale-gray);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  background: var(--white);
+  transition: border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+  min-height: 44px; /* комфортный тач-таргет */
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--black);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input::-webkit-inner-spin-button {
+  opacity: 1;
+}
+
+.helper-text {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-top: var(--space-1);
+  font-style: italic;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper .select-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 1;
+  filter: grayscale(100%);
+}
+
+.select-wrapper select {
+  padding-left: 40px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000000' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--pale-gray);
+  margin: var(--space-6) 0;
+}
+
+/* ---------- Список напитков ---------- */
+
+.drink-item {
+  position: relative;
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+  padding: 14px;
+  padding-right: 40px;
+  background: var(--bg-gray);
+  border-radius: var(--radius);
+  border: 1px solid var(--pale-gray);
+  transition: border-color var(--motion-fast) ease;
+}
+
+.drink-item:hover {
+  border-color: var(--light-gray);
+}
+
+.drink-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.drink-row {
+  display: flex;
+  gap: 10px;
+}
+
+.drink-row > * {
+  flex: 1;
+}
+
+.drink-item .form-group {
+  margin-bottom: 0;
+}
+
+.drink-item select,
+.drink-item input {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background var(--motion-fast) ease, color var(--motion-fast) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: var(--black);
+  color: var(--white);
+}
+
+.btn-delete:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+/* Плавное появление/исчезновение позиций напитков (<TransitionGroup>). */
+.drink-list-enter-active,
+.drink-list-leave-active {
+  transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+}
+
+.drink-list-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.drink-list-leave-to {
+  opacity: 0;
+  transform: translateX(12px);
+}
+
+.drink-list-leave-active {
+  position: absolute;
+}
+
+/* ---------- Кнопки ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--motion-fast) ease, box-shadow var(--motion-fast) ease, transform var(--motion-fast) ease;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-height: 44px;
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+  padding: 16px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.btn-primary:hover {
+  background: var(--dark-gray);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outlined {
+  background: transparent;
+  border: 2px dashed var(--mid-gray);
+  color: var(--mid-gray);
+}
+
+.btn-outlined:hover {
+  border-color: var(--black);
+  color: var(--black);
+  background: var(--off-white);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-dashed {
+  border-style: dashed;
+}
+
+.btn-large {
+  margin: var(--space-6) 0;
+}
+
+/* ---------- Результат ---------- */
+
+.result-box {
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  background: var(--near-black);
+  border-radius: var(--radius);
+  margin-top: var(--space-6);
+  color: var(--white);
+}
+
+.result-box.show {
+  animation: fadeIn var(--motion-base) var(--ease-out);
+}
+
+.result-label {
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-2);
+}
+
+.result-value {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-status {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.result-time {
+  font-size: 0.95rem;
+  color: var(--light-gray);
+  margin-top: var(--space-4);
+}
+
+.result-time strong {
+  color: var(--white);
+}
+
+.status-success {
+  color: var(--light-gray);
+}
+
+.status-warning {
+  color: var(--pale-gray);
+}
+
+.status-error {
+  color: var(--danger-soft);
+}
+
+.status-danger {
+  color: var(--danger);
+}
+
+.status-critical {
+  color: var(--danger-strong);
+}
+
+/* Линейный индикатор уровня опьянения — визуальная опора рядом с текстом статуса. */
+.result-meter {
+  margin-top: var(--space-4);
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.result-meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--white);
+  transition: width var(--motion-base) var(--ease-out);
+}
+
+.result-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
+.result-actions .btn {
+  width: auto;
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+}
+
+.share-feedback {
+  margin-top: var(--space-2);
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  min-height: 1em;
+}
+
+/* ---------- Дисклеймер ---------- */
+
+.alert {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  margin-top: var(--space-8);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.alert-info {
+  background: var(--off-white);
+  border: 1px solid var(--pale-gray);
+  color: var(--mid-gray);
+}
+
+.alert-info strong {
+  color: var(--black);
+}
+
+.alert-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  filter: grayscale(100%);
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.input-error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.15) !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

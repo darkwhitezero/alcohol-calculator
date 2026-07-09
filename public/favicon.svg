@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#1a1a1a"/>
+  <!-- минималистичный силуэт бокала для мартини — в тон ч/б стилистике сайта -->
+  <path d="M16 16 H48 L34 34 V46 H40 V50 H24 V46 H30 V34 Z" fill="#ffffff"/>
+  <circle cx="24" cy="20" r="1.6" fill="#1a1a1a"/>
+</svg>

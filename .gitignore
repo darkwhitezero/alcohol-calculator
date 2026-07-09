@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+*.local
+*.tsbuildinfo
+
+# редакторы
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+npm-debug.log*
+
+# временные файлы обработки гифки
+*.tmp.png
