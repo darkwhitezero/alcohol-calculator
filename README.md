@@ -1,126 +1,128 @@
-# 🍸 Бухлометр — калькулятор алкоголя
+<p align="center">
+  <img src="./docs/hero-en.svg" width="100%"
+       alt="Buhlometr, a blood alcohol calculator: BAC in per mille and the time until sober, based on the Widmark-Seidl formula">
+</p>
 
-[![Stars](https://img.shields.io/github/stars/darkwhitezero/alcohol-calculator?style=flat)](https://github.com/darkwhitezero/alcohol-calculator/stargazers)
-[![License](https://img.shields.io/github/license/darkwhitezero/alcohol-calculator?style=flat)](./LICENSE)
-[![Issues](https://img.shields.io/github/issues/darkwhitezero/alcohol-calculator?style=flat)](https://github.com/darkwhitezero/alcohol-calculator/issues)
-[![Vue 3](https://img.shields.io/badge/Vue-3-42b883?style=flat&logo=vue.js&logoColor=white)](https://vuejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+<p align="center"><b>English</b> · <a href="README.ru.md">Русский</a></p>
 
-![Бухлометр — обложка](./docs/cover.png)
+<p align="center">
+  <a href="https://darkwhitezero.github.io/alcohol-calculator/"><b>Open the live demo</b></a>
+</p>
 
-**Бухлометр** — простой юзер-френдли веб‑калькулятор, который оценивает концентрацию алкоголя в крови в **промилле (‰)** и примерное время до полного вытрезвления.
-Расчёты основаны на формуле **Видмарка-Зайдля**.
+<p align="center">
+  <a href="https://github.com/darkwhitezero/alcohol-calculator/stargazers"><img src="https://img.shields.io/github/stars/darkwhitezero/alcohol-calculator?style=flat" alt="Stars"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/darkwhitezero/alcohol-calculator?style=flat" alt="License"></a>
+  <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue-3-42b883?style=flat&logo=vue.js&logoColor=white" alt="Vue 3"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat&logo=typescript&logoColor=white" alt="TypeScript"></a>
+</p>
 
-> ⚠️ **Важно:** Бухлометр - это **не медицинские показания** и **не юридический инструмент**.
----
+**Buhlometr** (from Russian *bukhlo*, slang for booze, plus *-meter*) is a small web calculator.
+Tell it who you are and what you drank, and it estimates your blood alcohol content in per mille (‰)
+and roughly how long until it's back to zero. The math is the Widmark formula with Seidl's correction
+for height and weight.
 
-## 🚀 Демо
+The interface is in Russian. It's a handful of number fields, so a browser translator handles it fine.
 
-Приложение можно открыть по адресу:
+> [!WARNING]
+> This is an estimate, not a medical or legal tool. Never drive after drinking, even if the calculator shows 0.
 
-- `https://darkwhitezero.github.io/alcohol-calculator/`
+<p align="center">
+  <img src="./docs/screenshot.png" width="360"
+       alt="Buhlometr UI: male, 89 kg, 184 cm, 100 ml of vodka on an empty stomach gives 0.48 per mille, mild intoxication, about 3 h 12 min until sober">
+</p>
 
----
+## What it does
 
-## ✨ Возможности
+- Calculates BAC from sex, weight and height.
+- Takes stomach contents into account: empty, a snack, or a full meal.
+- Handles several drinks at once. Pick a preset (beer, wine, vodka and so on) or enter your own volume and ABV.
+- Shows the result on a scale of intoxication levels and estimates the time until sober.
+- Points at the exact field when an input is wrong and says what's wrong with it.
+- Remembers the form between visits (localStorage).
+- Shares a result as text or as a link that restores everything you entered.
 
-- ✅ Расчёт промилле (‰) по введённым данным (пол, вес, рост)
-- ✅ Учёт наполненности желудка (пустой / перекус / плотный приём пищи)
-- ✅ **Несколько напитков**: добавляй/удаляй позиции, меняй объём и крепость
-- ✅ Пресеты напитков + "свой вариант"
-- ✅ Примерная оценка состояния по диапазонам + наглядная шкала уровня опьянения
-- ✅ Оценка времени до полного вытрезвления
-- ✅ **Форма запоминается** между визитами (localStorage)
-- ✅ **Поделиться результатом** — копирование в буфер обмена или ссылка с восстановлением введённых данных
+## How the number is calculated
 
----
+Grams of pure alcohol:
 
-## 🧮 Как происходит расчёт
+```text
+A = volume_ml × (abv / 100) × 0.789
+```
 
-1) Масса этанола (г):
-`объём(мл) × (крепость/100) × 0.789`
+Blood alcohol content, Widmark:
 
-2) Оценка BAC (от англ. Blood Alcohol Content, содержание алкоголя в крови) по формуле Видмарка:
-`BAC ≈ (A / (r × m)) − β × t`
+```text
+BAC ≈ A / (r × m) − β × t
+```
 
-где:
-- `A` — масса этанола (г)
-- `m` — масса тела (кг)
-- `r` — коэффициент распределения (зависит от пола и телосложения)
-- `β` — скорость выведения (обычно ~**0.15 ‰/час**, но зависит от человека)
-- `t` — время с момента употребления (часы)
----
+| Symbol | Meaning |
+| --- | --- |
+| `A` | grams of ethanol, minus 10% for a snack or 20% for a full meal (absorption deficit) |
+| `m` | body weight, kg |
+| `r` | distribution factor. Seidl's version computes it from sex, weight and height |
+| `β` | elimination rate, about 0.15 ‰ per hour on average |
+| `t` | hours since you started drinking |
 
-## 🛠️ Технологии
+All of this lives in [`src/lib/widmark.ts`](src/lib/widmark.ts) and is covered by Vitest tests.
 
-Проект переехал с чистого JavaScript на **Vue 3 + TypeScript + Vite**:
+### What the result means
 
-- **Vue 3** (Composition API, `<script setup>`) — компоненты и реактивность вместо ручного управления DOM
-- **TypeScript** (строгий режим) — типизированная логика расчёта и состояние формы
-- **Vite** — сборка и dev-сервер
-- **Vitest** — юнит-тесты расчётной логики
+<p align="center">
+  <img src="./docs/scale-en.svg" width="100%"
+       alt="BAC ranges: 0 to 0.3 per mille slight intoxication, 0.3 to 0.5 mild, 0.5 to 1.5 moderate, 1.5 to 2.5 severe, 2.5 and above alcohol poisoning">
+</p>
 
----
+| Per mille | State |
+| --- | --- |
+| `0 ‰` | Sober |
+| `< 0.3 ‰` | Slight intoxication |
+| `0.3 to 0.5 ‰` | Mild intoxication |
+| `0.5 to 1.5 ‰` | Moderate intoxication |
+| `1.5 to 2.5 ‰` | Severe intoxication |
+| `2.5 ‰ and above` | Alcohol poisoning |
 
-## 🚀 Запуск локально
+Legal driving limits depend on the country. The app is written for Russia, where the limit is 0.3 ‰.
+
+## Run it locally
 
 ```bash
-npm install     # установить зависимости
-npm run dev     # dev-сервер с горячей перезагрузкой
-npm run build   # прод-сборка в dist/
-npm run preview # локальный просмотр прод-сборки
-npm run test    # юнит-тесты (Vitest)
-npm run typecheck # проверка типов
+npm install
+npm run dev        # dev server with hot reload
+npm run build      # production build into dist/
+npm run preview    # preview the production build
+npm run test       # unit tests (Vitest)
+npm run typecheck  # type check
 ```
 
----
+Stack: Vue 3 (Composition API, `<script setup>`), TypeScript in strict mode, Vite, Vitest.
 
-## 📁 Структура проекта
+## Project layout
 
-```
-index.html               — точка входа
+```text
+index.html          entry point
 src/
-  main.ts                — запуск приложения
-  App.vue                — корневой компонент
-  lib/                    — чистая логика (без Vue): расчёт BAC, типы, константы,
-                            сохранение в localStorage, "поделиться"
-  composables/            — реактивное состояние формы (useCalculatorForm)
-  components/             — компоненты интерфейса
-  styles/                 — глобальные стили (чёрно-белая тема)
-  assets/                 — фон и маскот-анимация (без фона, WebP)
-public/                   — favicon, OG-превью
+  main.ts           app bootstrap
+  App.vue           root component
+  lib/              pure logic without Vue, covered by tests:
+                    widmark.ts (BAC), validation.ts (form checks),
+                    types, constants, localStorage, sharing
+  composables/      form state (useCalculatorForm) and the animated
+                    per mille counter (useCountUp)
+  components/       UI components
+  styles/           global styles and self-hosted fonts (black and white theme)
+  assets/           background, mascot animation (transparent WebP), fonts (woff2)
+public/             favicon, OG preview
+docs/               README images
 ```
 
----
+## Disclaimer
 
-## ✅ Дисклеймер
+The numbers are approximate. The formula doesn't know about your metabolism, health, medication,
+how tired you are, or a dozen other things that matter. The result has no legal weight and can't be
+used to argue with a breathalyzer reading.
 
-Данный калькулятор предоставляет **лишь приблизительные расчёты**.
-Он **не учитывает** индивидуальные особенности метаболизма, здоровье, лекарства, усталость и многие другие факторы.
+If Buhlometr was useful or just made you smile, a star helps other people find it.
 
-Результаты **не имеют юридической силы** и не могут использоваться для оспаривания показаний алкотестера/освидетельствованием.
-**Не садитесь за руль после употребления алкоголя**, даже если калькулятор показывает «0».
+## License
 
----
-
-## ⭐ Поддержать проект
-
-Если Бухлометр оказался полезным — поставь **звёздочку** репозиторию.
-Это помогает проекту расти ❤️
-
----
-
-## 📄 Лицензия
-
-MIT — см. [LICENSE](./LICENSE).
-
----
-
-## 🇬🇧 English
-
-**Buhlometr** ("BAC-o-meter") is a small, friendly web calculator that estimates **Blood Alcohol
-Content (BAC, ‰)** and the approximate time until you're sober again, using the **Widmark-Seidl
-formula**. Built with **Vue 3 + TypeScript + Vite**. Not a medical or legal tool — never drive
-after drinking, even if the calculator shows "0".
-
-Live demo: `https://darkwhitezero.github.io/alcohol-calculator/`
+[MIT](LICENSE)

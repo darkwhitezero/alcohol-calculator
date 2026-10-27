@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="360" viewBox="0 0 1200 360"
+     role="img" aria-labelledby="hero-title hero-desc">
+  <title id="hero-title">Buhlometr: blood alcohol calculator</title>
+  <desc id="hero-desc">Estimates blood alcohol content in per mille and the time until you are sober, using the Widmark-Seidl formula. On the right, a real result from the app: 0.48 per mille, mild intoxication, about 3 hours 12 minutes until sober.</desc>
+
+  <rect width="1200" height="360" rx="26" fill="#0f0f0f"/>
+
+  <!-- Left column: category, name, promise, stack -->
+  <g id="title-block">
+    <text x="64" y="104" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="18" letter-spacing="2.6" fill="#8a8a8a">BLOOD ALCOHOL CALCULATOR</text>
+
+    <text x="60" y="190" font-family="Georgia, 'Times New Roman', serif"
+          font-size="82" font-weight="700" letter-spacing="1" fill="#ffffff">BUHLOMETR</text>
+
+    <text x="64" y="238" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="24" fill="#d8d8d8">Your BAC in ‰ and the time until sober,</text>
+    <text x="64" y="270" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="24" fill="#d8d8d8">based on the Widmark-Seidl formula</text>
+
+    <text x="64" y="318" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="18" letter-spacing="1.2" fill="#6f6f6f">Vue 3 · TypeScript · Vite · MIT</text>
+  </g>
+
+  <!-- Right column: a real result card from the app -->
+  <g id="project-proof">
+    <rect x="700" y="70" width="436" height="242" rx="18" fill="#161616" stroke="#2e2e2e" stroke-width="1"/>
+
+    <text x="728" y="112" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="18" letter-spacing="1.6" fill="#8a8a8a">BLOOD ALCOHOL CONTENT</text>
+
+    <text x="728" y="182" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="62" font-weight="700" fill="#ffffff">0.48 ‰</text>
+
+    <text x="728" y="216" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="20" font-weight="600" letter-spacing="1.2" fill="#d8d8d8">MILD INTOXICATION</text>
+
+    <!-- Level meter: the same indicator as in the UI -->
+    <rect x="728" y="238" width="380" height="8" rx="4" fill="#2e2e2e"/>
+    <rect x="728" y="238" width="61" height="8" rx="4" fill="#ffffff"/>
+
+    <text x="728" y="272" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="16" fill="#6f6f6f">0</text>
+    <text x="1108" y="272" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="16" fill="#6f6f6f">3 ‰</text>
+
+    <text x="728" y="298" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="18" fill="#8a8a8a">≈ 3 h 12 min until sober</text>
+  </g>
+</svg>
