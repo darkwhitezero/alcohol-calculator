@@ -18,7 +18,9 @@ const emit = defineEmits<{
   <section class="section">
     <h2 class="section-title">Выпитое</h2>
 
-    <TransitionGroup name="drink-list" tag="div">
+    <!-- class на TransitionGroup нужен для position: relative — уезжающая при
+         удалении карточка позиционируется absolute именно от этого контейнера -->
+    <TransitionGroup name="drink-list" tag="div" class="drink-list">
       <DrinkItem
         v-for="drink in drinks"
         :key="drink.id"

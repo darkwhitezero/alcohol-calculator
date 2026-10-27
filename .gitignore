@@ -13,3 +13,6 @@ npm-debug.log*
 
 # временные файлы обработки гифки
 *.tmp.png
+
+# локальные настройки Claude Code
+.claude/

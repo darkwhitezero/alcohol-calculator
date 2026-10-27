@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="380" viewBox="0 0 1200 380"
+     role="img" aria-labelledby="scale-title scale-desc">
+  <title id="scale-title">Шкала статусов опьянения по промилле</title>
+  <desc id="scale-desc">Пять диапазонов, которые различает калькулятор: 0–0.3 промилле — незначительное опьянение, 0.3–0.5 — лёгкое, 0.5–1.5 — среднее, 1.5–2.5 — сильное, от 2.5 — тяжёлое отравление.</desc>
+
+  <rect width="1200" height="380" rx="26" fill="#0f0f0f"/>
+
+  <text x="56" y="56" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="18" letter-spacing="2.4" fill="#8a8a8a">ЧТО ПОКАЗЫВАЕТ РЕЗУЛЬТАТ</text>
+
+  <!-- Диапазон 0 – 0.3 -->
+  <g>
+    <text x="56" y="103" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="20" fill="#8a8a8a">0 – 0.3 ‰</text>
+    <text x="236" y="103" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="22" fill="#d8d8d8">Незначительное опьянение</text>
+    <rect x="648" y="90" width="496" height="12" rx="6" fill="#1e1e1e"/>
+    <rect x="648" y="90" width="50" height="12" rx="6" fill="#5a5a5a"/>
+  </g>
+
+  <!-- Диапазон 0.3 – 0.5 -->
+  <g>
+    <text x="56" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="20" fill="#8a8a8a">0.3 – 0.5 ‰</text>
+    <text x="236" y="155" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="22" fill="#d8d8d8">Лёгкое опьянение</text>
+    <rect x="648" y="142" width="496" height="12" rx="6" fill="#1e1e1e"/>
+    <rect x="698" y="142" width="33" height="12" rx="6" fill="#7d7d7d"/>
+  </g>
+
+  <!-- Диапазон 0.5 – 1.5 -->
+  <g>
+    <text x="56" y="207" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="20" fill="#8a8a8a">0.5 – 1.5 ‰</text>
+    <text x="236" y="207" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="22" fill="#d8d8d8">Среднее опьянение</text>
+    <rect x="648" y="194" width="496" height="12" rx="6" fill="#1e1e1e"/>
+    <rect x="731" y="194" width="165" height="12" rx="6" fill="#a3a3a3"/>
+  </g>
+
+  <!-- Диапазон 1.5 – 2.5 -->
+  <g>
+    <text x="56" y="259" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="20" fill="#8a8a8a">1.5 – 2.5 ‰</text>
+    <text x="236" y="259" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="22" fill="#d8d8d8">Сильное опьянение</text>
+    <rect x="648" y="246" width="496" height="12" rx="6" fill="#1e1e1e"/>
+    <rect x="896" y="246" width="165" height="12" rx="6" fill="#cfcfcf"/>
+  </g>
+
+  <!-- Диапазон от 2.5 -->
+  <g>
+    <text x="56" y="311" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="20" fill="#8a8a8a">от 2.5 ‰</text>
+    <text x="236" y="311" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="22" fill="#d8d8d8">Тяжелое отравление</text>
+    <rect x="648" y="298" width="496" height="12" rx="6" fill="#1e1e1e"/>
+    <rect x="1061" y="298" width="83" height="12" rx="6" fill="#ffffff"/>
+  </g>
+
+  <!-- Ось промилле под диапазонами -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#6f6f6f">
+    <text x="648" y="344">0</text>
+    <text x="813" y="344" text-anchor="middle">1</text>
+    <text x="979" y="344" text-anchor="middle">2</text>
+    <text x="1144" y="344" text-anchor="end">3 ‰</text>
+  </g>
+
+  <text x="56" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="16" fill="#6f6f6f">Пороги — те же, что в src/lib/widmark.ts</text>
+</svg>
