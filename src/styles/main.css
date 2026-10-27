@@ -44,6 +44,9 @@
 
   --motion-fast: 0.16s;
   --motion-base: 0.25s;
+  /* Для движений, которые перестраивают раскладку (удаление напитка из списка) —
+     на 0.25s глаз не успевает проследить, куда всё уехало. */
+  --motion-slow: 0.4s;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -465,8 +468,11 @@ body::before {
 }
 
 /* Плавное появление/исчезновение позиций напитков (<TransitionGroup>). */
-.drink-list-enter-active,
-.drink-list-leave-active {
+.drink-list {
+  position: relative;
+}
+
+.drink-list-enter-active {
   transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
 }
 
@@ -475,13 +481,28 @@ body::before {
   transform: translateY(-8px);
 }
 
-.drink-list-leave-to {
-  opacity: 0;
-  transform: translateX(12px);
+/* Удаление идёт медленнее появления: тут одновременно уезжает сама карточка
+   и подтягивается весь список ниже — на быстрой анимации это выглядит как
+   рывок, будто напиток просто пропал. */
+.drink-list-leave-active {
+  transition: opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
+  /* Выводим из потока, чтобы соседи начали подтягиваться сразу, а не после
+     завершения анимации (иначе список дёргается в конце). */
+  position: absolute;
+  /* Схлопывающийся элемент не должен перекрывать те, что переезжают. */
+  z-index: 0;
 }
 
-.drink-list-leave-active {
-  position: absolute;
+.drink-list-leave-to {
+  opacity: 0;
+  transform: translateX(24px) scale(0.96);
+}
+
+/* Ключевой момент: без .move-класса оставшиеся напитки мгновенно
+   перескакивают на новые позиции. Именно он даёт плавное «подтягивание»
+   списка после удаления. */
+.drink-list-move {
+  transition: transform var(--motion-slow) var(--ease-out);
 }
 
 /* ---------- Кнопки ---------- */
